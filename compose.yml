@@ -1,0 +1,60 @@
+services:
+  web:
+    container_name: nginx
+    image: nginx:stable-bullseye
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/web:/usr/share/nginx/html
+      - ./work:/work
+    working_dir: /usr/share/nginx/html
+    tty: true # 開発時のみ有効
+
+  app:
+    container_name: nodejs
+    image: node:22-bullseye
+    ports:
+      - "1985:1985"
+    volumes:
+      - ./src/node:/app
+      - ./work:/work
+    working_dir: /app
+    tty: true # 開発時のみ有効
+
+  db:
+    container_name: postgres
+    image: postgres:17-alpine
+    restart: always
+    shm_size: 256mb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ./db:/var/lib/postgresql/data
+      - ./work:/work
+    working_dir: /work
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "${POSTGRES_HOST_AUTH_METHOD}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    env_file:
+      - .env
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - 8888:80
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+      - ./work:/work
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+    depends_on:
+      - db
+    env_file:
+      - .env

@@ -48,3 +48,4 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER update_customers_updated_date BEFORE UPDATE ON customers FOR EACH ROW EXECUTE PROCEDURE update_updated_date();
 CREATE TRIGGER update_cases_updated_date BEFORE UPDATE ON cases FOR EACH ROW EXECUTE PROCEDURE update_updated_date();
 CREATE TRIGGER update_negotiations_updated_date BEFORE UPDATE ON negotiations FOR EACH ROW EXECUTE PROCEDURE update_updated_date();
+    

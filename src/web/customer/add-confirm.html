@@ -70,9 +70,9 @@
 
                 if (response.ok) {
                     document.getElementById('result-message').innerHTML = '<div class="alert alert-success">登録が完了しました。</div>';
-                    // 登録が完了したらホーム画面に遷移する
+                    // 登録が完了したら追加に遷移する
                     setTimeout(() => {
-                        window.location.href = "../index.html";
+                        window.location.href = "./add.html";
                     }, 1000);
                 } else {
                     document.getElementById('result-message').innerHTML = '<div class="alert alert-danger">登録に失敗しました。</div>';

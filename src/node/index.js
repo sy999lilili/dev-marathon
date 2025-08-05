@@ -47,3 +47,39 @@ app.post("/add-customer", async (req, res) => {
     res.json({ success: false });
   }
 });
+
+app.get("/customers/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await pool.query(
+      "SELECT * FROM customers WHERE customer_id = $1",
+      [id]
+    );
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]);
+    } else {
+      res.status(404).send("Not found");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error " + err);
+  }
+});
+
+app.delete("/customers/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await pool.query(
+      "DELETE FROM customers WHERE customer_id = $1 RETURNING *",
+      [id]
+    );
+    if (result.rowCount > 0) {
+      res.json({ success: true });
+    } else {
+      res.status(404).json({ success: false, message: "Not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error " + err });
+  }
+});

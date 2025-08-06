@@ -42,4 +42,12 @@ cd "$CYPRESS_DIR"
 # Cypressが入ってなければインストール（インタラクティブ回避）
 npx cypress install --force
 
-npx cypress run --browser chrome --spec "cypress/e2e/${USER_NAME}.*"
+
+# Specファイルが存在すればテストを実行、なければスキップ
+if ls "cypress/e2e/${USER_NAME}."* 1> /dev/null 2>&1; then
+  echo " Spec found for ${USER_NAME} — running Cypress tests..."
+  npx cypress run --browser chrome --spec "cypress/e2e/${USER_NAME}.*"
+else
+  echo "⚠️ Spec file for ${USER_NAME} not found. Skipping Cypress tests."
+fi
+

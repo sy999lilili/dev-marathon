@@ -17,5 +17,5 @@ jobs:
           private-key: ${{ secrets.DEV_SSHE_SSH_KEY }}
 
       - name: Run deploy script via SSH
-        run: ssh ${{ steps.ssh.outputs.SERVER }} bash /app/shiori_yonemura/deploy.sh shiori_yonemura
+        run: ssh -v ${{ steps.ssh.outputs.SERVER }} bash /app/shiori_yonemura/deploy.sh shiori_yonemura
 

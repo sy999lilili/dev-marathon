@@ -30,7 +30,11 @@ rm -rf "$WEB_DIR"/*
 cp -ipr ./src/web/* "$WEB_DIR/"
 
 # Webアプリが期待するデフォルトのconfig.jsに、本番用の設定ファイルを移動します。
-mv "$WEB_DIR/prod_config.js" "$WEB_DIR/config.js"
+if [ -f "$WEB_DIR/prod_config.js" ]; then
+  mv "$WEB_DIR/prod_config.js" "$WEB_DIR/config.js"
+else
+  echo "警告: prod_config.js が見つかりませんでした。config.js の生成はスキップします。"
+fi
 
 # Cypressディレクトリに移動し、特定のユーザーのテストを実行します。
 cd "$CYPRESS_DIR"

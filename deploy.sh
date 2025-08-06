@@ -38,4 +38,8 @@ fi
 
 # Cypressディレクトリに移動し、特定のユーザーのテストを実行します。
 cd "$CYPRESS_DIR"
+
+# Cypressが入ってなければインストール（インタラクティブ回避）
+npx cypress install --force
+
 npx cypress run --browser chrome --spec "cypress/e2e/${USER_NAME}.*"

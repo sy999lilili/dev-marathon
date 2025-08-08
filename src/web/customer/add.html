@@ -31,20 +31,21 @@
         </form>
     </div>
     <script type="module">
-        import config from '../negotiation/config.js';
+        // import config from '../config.js';
 
         document.getElementById('customer-form').addEventListener('submit', function (e) {
             e.preventDefault();
+
+            console.log('Form submitted'); // デバッグ用
 
             // 入力値を取得
             const formData = new FormData(this);
             const params = new URLSearchParams([...formData]);
 
+            console.log('Params:', params.toString()); // デバッグ用
+
             // 確認画面にパラメータを付与して遷移
             window.location.href = `add-confirm.html?${params.toString()}`;
-
-            // 以降の処理は不要なのでreturnで終了
-            return;
         });
     </script>
     <!-- BootstrapのJavaScriptの読み込み -->

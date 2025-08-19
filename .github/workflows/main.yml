@@ -21,7 +21,7 @@ jobs:
 
       # 2. Stagingにデプロイ（deploy.sh 内でCypressテストも実行）
       - name: Deploy and run tests on Staging
-        run: ssh staging-server bash /app/${{ secrets.STG_USER }}/deploy.sh ${{ secrets.STG_USER }}
+        run: ssh staging-server bash /app/shiori_yonemura/deploy.sh shiori_yonemura
 
       # 3. ProductionサーバーにSSH設定
       - name: Configure SSH (Production)
@@ -35,4 +35,4 @@ jobs:
 
       # 4. Stagingテストが成功したらProductionにデプロイ
       - name: Deploy to Production
-        run: ssh prod-server bash /app/${{ secrets.PROD_USER }}/deploy.sh ${{ secrets.PROD_USER }}
+        run: ssh prod-server bash /app/shiori_yonemura/deploy.sh shiori_yonemura

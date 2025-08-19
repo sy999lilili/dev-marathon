@@ -14,10 +14,10 @@ jobs:
         uses: cdqag/action-configure-ssh-host@v1
         with:
           name: staging-server
-          host: ${{ secrets.STG_SSH_HOST }}
-          port: ${{ secrets.STG_SSH_PORT }}
-          user: ${{ secrets.STG_SSH_USER }}
-          private-key: ${{ secrets.STG_SSH_KEY }}
+          host: ${{ secrets.DEV_SSH_HOST }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          user: ${{ secrets.DEV_SSH_USER }}
+          private-key: ${{ secrets.DEV_SSHE_SSH_KEY }}
 
       # 2. Stagingにデプロイ（deploy.sh 内でCypressテストも実行）
       - name: Deploy and run tests on Staging

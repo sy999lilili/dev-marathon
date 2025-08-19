@@ -1,0 +1,38 @@
+name: Deploy Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. StagingサーバーにSSH設定
+      - name: Configure SSH (Staging)
+        uses: cdqag/action-configure-ssh-host@v1
+        with:
+          name: staging-server
+          host: ${{ secrets.STG_SSH_HOST }}
+          port: ${{ secrets.STG_SSH_PORT }}
+          user: ${{ secrets.STG_SSH_USER }}
+          private-key: ${{ secrets.STG_SSH_KEY }}
+
+      # 2. Stagingにデプロイ（deploy.sh 内でCypressテストも実行）
+      - name: Deploy and run tests on Staging
+        run: ssh staging-server bash /app/${{ secrets.STG_USER }}/deploy.sh ${{ secrets.STG_USER }}
+
+      # 3. ProductionサーバーにSSH設定
+      - name: Configure SSH (Production)
+        uses: cdqag/action-configure-ssh-host@v1
+        with:
+          name: prod-server
+          host: ${{ secrets.PROD_SSH_HOST }}
+          port: ${{ secrets.PROD_SSH_PORT }}
+          user: ${{ secrets.PROD_SSH_USER }}
+          private-key: ${{ secrets.PROD_SSH_KEY }}
+
+      # 4. Stagingテストが成功したらProductionにデプロイ
+      - name: Deploy to Production
+        run: ssh prod-server bash /app/${{ secrets.PROD_USER }}/deploy.sh ${{ secrets.PROD_USER }}

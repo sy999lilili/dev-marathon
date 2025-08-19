@@ -1,0 +1,22 @@
+name: ssh command
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - id: ssh
+        uses: cdqag/action-configure-ssh-host@v1
+        with:
+          name: ec2-server
+          host: ${{ secrets.DEV_SSH_HOST }}
+          port: ${{ secrets.DEV_SSH_PORT }}
+          user: ${{ secrets.DEV_SSH_USER }}
+          private-key: ${{ secrets.DEV_SSHE_SSH_KEY }}
+
+      - name: Run deploy script via SSH
+        run: ssh ec2-server bash /app/shiori_yonemura/deploy.sh shiori_yonemura
+

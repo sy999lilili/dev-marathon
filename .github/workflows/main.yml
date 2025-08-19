@@ -33,6 +33,7 @@ jobs:
           user: ${{ secrets.PROD_SSH_USER }}
           private-key: ${{ secrets.PROD_SSH_KEY }}
 
-      # 4. Stagingテストが成功したらProductionにデプロイ
-      - name: Deploy to Production
-        run: ssh prod-server bash /app/shiori_yonemura/deploy.sh shiori_yonemura
+      # 4. Stagingテストが成功したらProductionにデプロイ（Dockerコンテナ内で実行）
+      - name: Deploy to Production inside Docker
+        run: |
+          ssh prod-server "docker exec -i app bash /app/shiori_yonemura/deploy.sh shiori_yonemura"

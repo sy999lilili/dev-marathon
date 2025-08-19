@@ -3,6 +3,9 @@
 # このスクリプトはユーザーのウェブディレクトリに最新のコードを更新し、
 # ユーザーの環境に対してCypressテストを実行する自動化処理を行います。
 
+# /app が Git に「安全なディレクトリ」として 認識されるようにする
+git config --global --add safe.directory /app
+
 # コマンドが非ゼロステータスで終了した場合、直ちにスクリプトを終了します。
 set -e
 
@@ -50,4 +53,3 @@ if ls "cypress/e2e/${USER_NAME}."* 1> /dev/null 2>&1; then
 else
   echo "⚠️ Spec file for ${USER_NAME} not found. Skipping Cypress tests."
 fi
-

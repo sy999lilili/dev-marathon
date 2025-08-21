@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: "/api_shiori_yonemura",
+  apiUrl: "http://localhost:3000",
 };
 
 export default config;

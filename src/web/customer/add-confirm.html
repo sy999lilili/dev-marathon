@@ -73,6 +73,7 @@
 
             // 通常の処理（本番環境）
             try {
+                console.log("API URL:", config.apiUrl); // 追加して値を確認
                 const response = await fetch(config.apiUrl + '/add-customer', {
                     method: 'POST',
                     headers: {

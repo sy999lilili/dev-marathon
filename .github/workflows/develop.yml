@@ -19,4 +19,3 @@ jobs:
 
       - name: Run deploy script via SSH
         run: ssh ec2-server bash /app/shiori_yonemura/deploy.sh shiori_yonemura
-
